@@ -53,7 +53,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\EnemyController.cs" />
+     <Compile Include="Assets\Scripts\LookForward.cs" />
+     <Compile Include="Assets\Scripts\PickUp.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\PlayerController2D.cs" />
+     <Compile Include="Assets\Scripts\PlayerManager.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/crist/git/ufo/Tilemap + platform/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
