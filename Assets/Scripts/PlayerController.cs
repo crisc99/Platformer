@@ -136,6 +136,23 @@ public float waitTime;
     
      }
         }
+
+  public IEnumerator Knockback (float knockDur, float knockBackPwr, Vector3 knockBackDir)
+	{
+
+      float timer = 0;
+      while (knockDur>timer) {
+               timer += Time.deltaTime;
+               rb2d.velocity = new Vector2 (0, 0);   //<----------------------
+               rb2d.AddForce (new Vector3 (knockBackDir.x * -100, knockBackDir.y * knockBackPwr, transform.position.z));
+		
+		
+		}
+		yield return 0;
+
+	}
+
+
         public void Update() {
           
     if (Input.GetKeyDown(KeyCode.Escape)) {

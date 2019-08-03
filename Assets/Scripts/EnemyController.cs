@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     public float distance;
     private bool movingRight = true;
     public Transform groundDetection;
+    private PlayerController2D PlayerController2D;
 
     void Update(){
         transform.Translate(Vector2.right * speed * Time.deltaTime);
@@ -28,15 +29,14 @@ else
   } 
     }
 
-      public void OnCollisionEnter2D(Collider2D target){
-        if (target.gameObject.tag == "Player"){
-            Destroy (this.gameObject);        }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+      var player = other.GetComponent<PlayerController2D>();
+      player.knockbackCount = player.knockbackLength;
+
+      if(other.transform.position.x < transform.position.x)
+      player.knockFromRight = true;
+      else
+      player.knockFromRight = false;
     }
-     }    
-
-
-    
-  
- 
-           
-
+}

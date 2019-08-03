@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerController2D : MonoBehaviour
 {
@@ -26,6 +27,12 @@ private int score;
 private int life;
 public Text loseText;
 public float waitTime;
+    private float JumpForce;
+public float knockback;
+public float knockbackLength;
+public float knockbackCount;
+public bool knockFromRight;
+
     void Start()
     {
        animator  = GetComponent<Animator>();
@@ -38,7 +45,9 @@ public float waitTime;
        loseText.text = "";
     }
 
-   public void FixedUpdate()
+   
+
+    public void FixedUpdate()
    {
        if((Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"))) ||
           (Physics2D.Linecast(transform.position, groundCheckL.position, 1 << LayerMask.NameToLayer("Ground"))) ||
@@ -59,13 +68,22 @@ public float waitTime;
        {
            rb2d.velocity = new Vector2(runSpeed, rb2d.velocity.y);
            if (isGrounded)
-           animator.Play("Mega Run");
+           animator.Play("Mega Run"); 
+           
 
            SpriteRenderer.flipX = false;
        }
        else if(Input.GetKey("a") || Input.GetKey("left"))
        {
+           if(knockbackCount <=0){
            rb2d.velocity = new Vector2(-runSpeed, rb2d.velocity.y);
+           } else {
+               if(knockFromRight)
+               rb2d.velocity = new Vector2(-knockback, knockback);
+               if(knockFromRight)
+               rb2d.velocity = new Vector2(knockback, knockback);
+               knockbackCount -= Time.deltaTime;
+           }
            if (isGrounded)
             animator.Play("Mega Run");
 
@@ -79,6 +97,7 @@ public float waitTime;
 
            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 
+          
        }
 
        if(Input.GetKey("space") && isGrounded)
@@ -86,6 +105,12 @@ public float waitTime;
            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
             animator.Play("Mega Jump");
        }
+        
+
+
+
+
+     
    }
  void OnTriggerEnter2D(Collider2D other) 
     {
@@ -105,7 +130,7 @@ public float waitTime;
             life = life - 1;
             SetLivesText ();
         }
-
+        
     }
     void SetScoreText ()
     {
@@ -129,7 +154,9 @@ public float waitTime;
     
      }
         }
-        public void Update() {
+
+   
+    public void Update() {
     if (Input.GetKeyDown(KeyCode.Escape)) {
         Application.Quit();
     }
